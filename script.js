@@ -62,7 +62,9 @@ function guide(el) {
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
   window.setTimeout(() => el.classList.remove("wave"), 1100);
 }
-$$(".mascot").forEach(el => {
+$(".mascot-guide-bubble a").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
+
+$(".mascot").forEach(el => {
   el.setAttribute("role","group");
   el.setAttribute("aria-label", (el.querySelector("b")?.textContent || "School mascot") + ", tap to get directions around the website");
   el.addEventListener("click", () => guide(el));
