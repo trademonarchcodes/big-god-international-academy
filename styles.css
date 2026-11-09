@@ -5,3 +5,39 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.intro{display:none!important}}
 
 .stage.primary{background:#dceffa;color:var(--navy)}footer{background:#111f43;color:white}footer .footer-top{display:flex;justify-content:space-between;align-items:center;padding:32px 7%}footer .footer-top p{font-size:12px;line-height:1.7;color:#c1c9d9}footer .footer-top>a:last-child{font-size:9px;font-weight:1000;letter-spacing:1.5px;color:var(--gold)}footer .footer-brand img{background:white;border-radius:50%;padding:2px}footer .footer-bottom{border-top:1px solid #ffffff25;padding:17px 7%;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:9px;color:#b9c2d5}footer .footer-bottom a{color:white;font-weight:1000;letter-spacing:1px;transition:color .2s}footer .footer-bottom a:hover{color:#42a5ff}@media(max-width:680px){footer .footer-top{display:grid;grid-template-columns:1fr auto;gap:15px}footer .footer-top p{grid-column:1;grid-row:2;margin:0}footer .footer-top>a:last-child{grid-column:2;grid-row:1/3}}
+
+/* Refined automatic welcome: the school crest sits inside a rotating gold orbit. */
+.intro{background:radial-gradient(circle at 50% 42%,#243b75 0,#172653 48%,#0d1735 100%);transition:opacity .65s ease,visibility .65s ease}
+.intro-glow{position:absolute;width:min(82vw,560px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#f4c84e20 0,transparent 68%);animation:introGlow 2.8s ease-in-out infinite}
+.intro-card{width:min(92vw,620px);padding:24px 18px;animation:welcomeIn .7s both}
+.crest-spinner{width:148px;height:148px;margin:0 auto 22px;position:relative;display:grid;place-items:center}
+.crest-spinner img{width:94px;height:94px;object-fit:contain;border-radius:50%;background:#fff;padding:5px;position:relative;z-index:2;box-shadow:0 0 30px #f4c84e44}
+.spinner-orbit{position:absolute;inset:1px;border:3px solid transparent;border-top-color:#f4c84e;border-right-color:#f4c84e;border-radius:50%;animation:crestSpin 1.25s linear infinite}
+.spinner-orbit:after{content:"";position:absolute;width:10px;height:10px;background:#fff;border-radius:50%;top:12px;left:15px;box-shadow:0 0 14px #fff}
+.spinner-orbit.orbit-two{inset:11px;border-width:2px;border-top-color:#8bd7f2;border-left-color:#8bd7f2;animation:crestSpinReverse 1.8s linear infinite}
+.spinner-orbit.orbit-two:after{width:7px;height:7px;top:auto;bottom:8px;left:10px;background:#f7a5b0}
+.intro-card>small{font-size:11px;letter-spacing:4px;margin:10px 0 8px;color:#f4c84e}
+.intro-card h2{font-size:clamp(35px,7vw,58px);line-height:.98}
+.intro-card h2 em{font-size:.48em;letter-spacing:2px;line-height:1.5;display:inline-block;margin-top:5px}
+.intro-card p{font-size:10px;letter-spacing:2.2px;margin:18px 0 0}
+.intro-loading{display:flex;justify-content:center;gap:6px;margin-top:22px}
+.intro-loading i{width:6px;height:6px;border-radius:50%;background:#f4c84e;animation:loadingDot .8s ease-in-out infinite alternate}
+.intro-loading i:nth-child(2){animation-delay:.18s}.intro-loading i:nth-child(3){animation-delay:.36s}
+.roaming-mascots{position:fixed;inset:0;z-index:12;pointer-events:none;overflow:hidden}
+.roaming-buddy{position:absolute;width:62px;height:76px;filter:drop-shadow(0 5px 5px #17265325);transform-origin:center bottom}
+.roaming-buddy svg{width:100%;height:100%;overflow:visible}
+.roam-bobo{left:2%;top:34%;animation:hopAcross 13s ease-in-out infinite}
+.roam-teddy{right:3%;top:65%;animation:teddyWander 16s ease-in-out infinite}
+.roam-captain{left:-90px;top:15%;width:66px;height:82px;animation:captainFlight 11s ease-in-out infinite}
+.roam-captain:after{content:"";position:absolute;width:35px;height:45px;left:-22px;top:21px;background:linear-gradient(135deg,#ef5369 50%,transparent 52%);clip-path:polygon(100% 0,100% 100%,0 75%,35% 48%,0 0);transform-origin:right center;animation:capeFlutter .35s ease-in-out infinite alternate}
+.roam-sunshine{right:4%;top:28%;width:54px;height:70px;animation:sunshineDance 12s ease-in-out infinite}
+@keyframes crestSpin{to{transform:rotate(360deg)}}@keyframes crestSpinReverse{to{transform:rotate(-360deg)}}
+@keyframes introGlow{50%{transform:scale(1.12);opacity:.55}}@keyframes welcomeIn{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes loadingDot{to{opacity:.25;transform:translateY(-5px)}}
+@keyframes hopAcross{0%,100%{transform:translate(0,0) rotate(-5deg)}22%{transform:translate(12vw,-32px) rotate(8deg)}48%{transform:translate(26vw,12px) rotate(-7deg)}72%{transform:translate(12vw,-22px) rotate(6deg)}}
+@keyframes teddyWander{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-8vw,-28px) rotate(-12deg)}55%{transform:translate(-18vw,10px) rotate(8deg)}80%{transform:translate(-7vw,-18px) rotate(-8deg)}}
+@keyframes captainFlight{0%{transform:translate(-5vw,0) rotate(-7deg)}22%{transform:translate(32vw,7vh) rotate(4deg)}48%{transform:translate(68vw,-2vh) rotate(-5deg)}72%{transform:translate(108vw,8vh) rotate(5deg)}100%{transform:translate(118vw,0) rotate(-4deg)}}
+@keyframes capeFlutter{to{transform:rotate(13deg) skewY(8deg)}}
+@keyframes sunshineDance{0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(-9vw,35px) rotate(18deg)}65%{transform:translate(-15vw,-20px) rotate(-12deg)}}
+@media(max-width:680px){.crest-spinner{width:130px;height:130px}.crest-spinner img{width:82px;height:82px}.roaming-buddy{width:43px;height:56px}.roam-captain{width:48px;height:62px;top:12%}.roam-sunshine{width:39px;height:53px}.roam-bobo{top:48%}.roam-teddy{top:73%}}
+@media(prefers-reduced-motion:reduce){.roaming-mascots{display:none!important}.spinner-orbit,.intro-glow,.intro-loading i{animation:none!important}}
