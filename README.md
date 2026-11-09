@@ -1,30 +1,47 @@
 # Big God International Academy
 
-Responsive school website for Big God International Academy, Port Harcourt, Rivers State.
+Official responsive website for Big God International Academy, Port Harcourt, Rivers State.
 
 ## Website
-- Responsive homepage with About, Academics, School Life, Anthem & Pledge, and Contact sections.
-- Nursery, Primary and Secondary education information.
-- Four original interactive mascot characters with greetings and waving animations.
-- Animated welcome intro with fireworks-style accents and confetti, plus a skip option.
-- Mobile navigation, telephone links, WhatsApp enquiry and Google Maps directions.
-- Reduced-motion accessibility support.
-- Supplied school crest embedded in the page.
-- DEVLYON credit link in the footer.
+- Single-page school website with About, Academics, School Life, Anthem & Pledge, and Contact sections
+- Nursery, Primary and Secondary levels
+- Mobile-friendly navigation and responsive layouts
+- Original interactive mascot characters with keyboard support
+- Welcome intro with celebratory confetti and skip option
+- Reduced-motion accessibility support
+- Phone, WhatsApp and map-direction links
+- DEVLYON footer credit linking to https://devlyon.pages.dev/
 
 ## Files
-- `index.html` — page structure and content
-- `styles.css` — responsive design and animations
-- `script.js` — menu, intro and mascot interactions
+- `index.html` — website content and structure
+- `styles.css` — responsive visual design and animations
+- `script.js` — navigation, mascot interactions and intro behavior
+- `assets/school-crest.svg` — scalable crest artwork
 
-## Deploy with Cloudflare Pages
-- Connect this GitHub repository to Cloudflare Pages.
-- Framework preset: None
+## Run locally
+Open `index.html` in a browser, or run `python -m http.server 8000` in this directory.
+
+## Cloudflare Pages deployment
+Import this GitHub repository into Cloudflare Pages with:
+- Framework preset: **None**
 - Build command: leave blank
 - Build output directory: `/` (repository root)
 
-## Publishing checks
-Please confirm the official pledge wording before public launch. The pledge currently uses the lightly corrected wording “faithful, truthful and understanding” and “paths of righteousness”. Confirm that 07049809645 is the preferred WhatsApp contact and that all three phone numbers may be published. Add only school-approved photographs and verified admissions information.
+No build step is required.
+
+## School details currently shown
+Address: Big God Street, Civil Servant Housing Estate, Along Igbo Etche Road, Port Harcourt, Rivers State.
+
+Phone numbers: 07049809645, 08033388754, 08131527210.
+
+WhatsApp currently opens a chat with 07049809645. Please verify this is the school's preferred WhatsApp line before launch.
+
+## Content approval before public launch
+- The pledge is displayed using the wording supplied to us; the school should proofread and approve it.
+- Confirm all three phone numbers and the WhatsApp contact are approved for public display.
+- Replace the illustrative crest artwork with the school's supplied official crest image when binary asset upload is available.
+- Mascots are original illustrative characters, not licensed third-party cartoon characters.
+- Add school-approved photographs and admissions information when supplied. No fees, dates, testimonials or accreditation claims have been invented.
 
 ## Credits
-Designed & Developed by DEVLYON — https://devlyon.pages.dev/
+Designed & Developed by DEVLYON.
