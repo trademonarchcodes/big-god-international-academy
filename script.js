@@ -1,6 +1,7 @@
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
-const year = $("#year");\nif (year) year.textContent = new Date().getFullYear();
+const year = $("#year");
+if (year) year.textContent = new Date().getFullYear();
 
 const menu = $(".menu"), nav = $(".header nav");
 menu.addEventListener("click", () => {
