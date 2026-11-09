@@ -75,7 +75,7 @@ $$(".mascot").forEach(el => {
 $("#dismiss").addEventListener("click",()=>$("#helper").classList.remove("show"));
 
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const targets = $(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
+  const targets = $$(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
   targets.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .65s,transform .65s";});
   const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{
     if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";if(entry.target.matches(".mascot"))entry.target.classList.add("mascot-entered");observer.unobserve(entry.target);}
