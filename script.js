@@ -64,7 +64,7 @@ function guide(el) {
 }
 document.querySelectorAll(".mascot-guide-bubble a").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
 
-$(".mascot").forEach(el => {
+$$(".mascot").forEach(el => {
   el.setAttribute("role","group");
   el.setAttribute("aria-label", (el.querySelector("b")?.textContent || "School mascot") + ", tap to get directions around the website");
   el.addEventListener("click", () => guide(el));
@@ -75,7 +75,7 @@ $(".mascot").forEach(el => {
 $("#dismiss").addEventListener("click",()=>$("#helper").classList.remove("show"));
 
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const targets = $$(".section,.stage,.tradition-grid article,.contact-grid");
+  const targets = $(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
   targets.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .65s,transform .65s";});
   const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{
     if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";observer.unobserve(entry.target);}
