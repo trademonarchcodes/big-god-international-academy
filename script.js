@@ -33,6 +33,14 @@ const guideRoutes = {
   star: { message:"Ready to reach for the stars? Discover your learning journey!", label:"Explore Academics", target:"#academics" },
   sunshine: { message:"Parents, let's take the next step together. We're happy to help!", label:"Contact the School", target:"#contact" }
 };
+// Distribute the guides through the site instead of keeping them in one lineup.
+const mascotStops = {teddy:"#about",star:"#academics",bobo:"#life",sunshine:"#contact"};
+Object.entries(mascotStops).forEach(([name, selector]) => {
+ const mascot=document.querySelector('.mascot[data-mascot="'+name+'"]');
+ const section=document.querySelector(selector);
+ if(mascot&&section){mascot.classList.add("visitor-mascot");section.appendChild(mascot);}
+});
+
 let activeGuide = null;
 function guide(el) {
   const info = guideRoutes[el.dataset.mascot] || guideRoutes.bobo;
