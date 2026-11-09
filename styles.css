@@ -70,10 +70,16 @@
 .section .visitor-mascot{display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;width:94px!important;height:126px!important;max-width:94px!important;min-width:0!important;margin:0!important;z-index:5!important;cursor:pointer;animation:mascot-arrive .7s ease both}
 .section .visitor-mascot svg{display:block;width:100%;height:100%;overflow:visible}
 .section .visitor-mascot b{display:block;position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:8px;background:#fff;border:1px solid #f0cb63;border-radius:20px;padding:5px 8px;color:#172653;box-shadow:0 4px 12px #17265318}
-#about .visitor-mascot{right:7%;top:28px}
-#academics .visitor-mascot{right:7%;top:34px}
-#life .visitor-mascot{right:7%;top:38px}
-#contact .visitor-mascot{right:7%;top:34px}
+#about .visitor-mascot{left:5%;top:auto;bottom:34px}
+#academics .visitor-mascot{right:5%;top:34px}
+#life .visitor-mascot{left:5%;right:auto;top:50%;transform:translateY(-50%)}
+#contact .visitor-mascot{right:5%;top:auto;bottom:34px}
+@media(max-width:680px){
+ #about .visitor-mascot{left:auto;right:5%;bottom:18px;top:auto}
+ #academics .visitor-mascot{right:5%;top:18px}
+ #life .visitor-mascot{left:auto;right:5%;top:18px;transform:none}
+ #contact .visitor-mascot{right:5%;bottom:18px;top:auto}
+}
 .section .visitor-mascot .mascot-guide-bubble{position:absolute;left:50%;bottom:calc(100% + 18px);width:190px;max-width:42vw;z-index:30}
 .section .visitor-mascot.guide-active{z-index:40;filter:drop-shadow(0 10px 14px #17265335)}
 @keyframes mascot-arrive{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
