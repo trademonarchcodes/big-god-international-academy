@@ -24,7 +24,7 @@ let seen = false;
 try { seen = sessionStorage.getItem("bga-intro-seen-v2") === "yes"; } catch(e) {}
 if (intro) {
   if (seen || reduceMotion) intro.classList.add("hide");
-  else window.setTimeout(enterSite, 2800);
+  else window.setTimeout(enterSite, 1400);
 }
 const greetings = {
   bobo:["Hi there! Welcome to Big God Academy!","Let's learn, play and shine together!","Every little star has a big future!"],
