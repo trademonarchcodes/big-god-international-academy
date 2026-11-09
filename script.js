@@ -27,22 +27,48 @@ if (intro) {
   if (seen || reduceMotion) intro.classList.add("hide");
   else window.setTimeout(enterSite, 1400);
 }
-const greetings = {
-  bobo:["Hi there! Welcome to Big God Academy!","Let's learn, play and shine together!","Every little star has a big future!"],
-  teddy:["Learning is an adventure!","Kindness makes our school brighter.","Let's discover something wonderful!"],
-  star:["Dream big, little champion!","You have a bright future ahead!","Ready to explore our school?"],
-  sunshine:["Hello, sunshine! You're welcome here!","At Big God, every child matters.","Let's grow in love and wisdom!"]
+const guideRoutes = {
+  bobo: { message:"Come with me! Let's explore fun school life and activities.", label:"Explore School Life", target:"#life" },
+  teddy: { message:"Curious about our school? I'll show you who we are.", label:"Meet Our School", target:"#about" },
+  star: { message:"Ready to reach for the stars? Discover your learning journey!", label:"Explore Academics", target:"#academics" },
+  sunshine: { message:"Parents, let's take the next step together. We're happy to help!", label:"Contact the School", target:"#contact" }
 };
-let waveTimer;
-function greet(el) {
-  const words = greetings[el.dataset.mascot] || greetings.bobo;
-  $("#speech").textContent = words[Math.floor(Math.random()*words.length)]+" ✦";
+let activeGuide = null;
+function guide(el) {
+  const info = guideRoutes[el.dataset.mascot] || guideRoutes.bobo;
+  const wasOpen = el.classList.contains("guide-active");
+  $(".mascot").forEach(item => {
+    item.classList.remove("guide-active");
+    const old = item.querySelector(".mascot-guide-bubble");
+    if (old) old.remove();
+  });
+  if (wasOpen) { activeGuide = null; return; }
+  activeGuide = el;
+  el.classList.add("guide-active");
+  const bubble = document.createElement("div");
+  bubble.className = "mascot-guide-bubble";
+  bubble.innerHTML = '<span class="guide-message"></span><a class="guide-link"></a>';
+  bubble.querySelector(".guide-message").textContent = info.message;
+  const link = bubble.querySelector(".guide-link");
+  link.textContent = info.label + " →";
+  link.href = info.target;
+  link.addEventListener("click", event => {
+    event.stopPropagation();
+    el.classList.remove("guide-active");
+    bubble.remove();
+    activeGuide = null;
+  });
+  el.appendChild(bubble);
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
-  clearTimeout(waveTimer); waveTimer=setTimeout(()=>el.classList.remove("wave"),2000);
+  window.setTimeout(() => el.classList.remove("wave"), 1100);
 }
-$$(".mascot").forEach(el => {
-  el.addEventListener("click",()=>greet(el));
-  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();greet(el);}});
+$(".mascot").forEach(el => {
+  el.setAttribute("role","group");
+  el.setAttribute("aria-label", (el.querySelector("b")?.textContent || "School mascot") + ", tap to get directions around the website");
+  el.addEventListener("click", () => guide(el));
+  el.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); guide(el); }
+  });
 });
 $("#dismiss").addEventListener("click",()=>$("#helper").classList.remove("show"));
 
@@ -55,21 +81,4 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
   targets.forEach(el=>observer.observe(el));
 }
 
-/* Small roaming mascot companions: Captain Star flies; friends bounce and wave. */
-if (!reduceMotion) {
-  const roaming = document.createElement("div");
-  roaming.className = "roaming-mascots";
-  roaming.setAttribute("aria-hidden", "true");
-  const routes = ["roam-bobo", "roam-teddy", "roam-captain", "roam-sunshine"];
-  $$(".mascot").forEach((source, index) => {
-    const buddy = source.cloneNode(true);
-    buddy.className = "roaming-buddy " + routes[index];
-    buddy.removeAttribute("role");
-    buddy.removeAttribute("tabindex");
-    buddy.removeAttribute("data-mascot");
-    buddy.querySelectorAll("b").forEach(label => label.remove());
-    buddy.querySelectorAll("svg").forEach(svg => svg.setAttribute("focusable", "false"));
-    roaming.appendChild(buddy);
-  });
-  document.body.appendChild(roaming);
-}
+/* Mascots stay beside the hero and guide visitors when tapped. */
