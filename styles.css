@@ -89,3 +89,21 @@
  .section .visitor-mascot .mascot-guide-bubble{width:min(155px,48vw);max-width:48vw;bottom:calc(100% + 14px)}
 }
 @media(prefers-reduced-motion:reduce){.section .visitor-mascot{animation:none!important}}
+
+
+/* 3D-inspired mascot polish: layered lighting, volume, soft contact shadows and touch feedback. */
+.mascot{isolation:isolate;filter:drop-shadow(0 13px 9px #17265338);animation:mascotFloat 4s ease-in-out infinite;transition:filter .25s,transform .25s}
+.mascot svg{overflow:visible;filter:drop-shadow(0 2px 1px #fff8) drop-shadow(0 7px 5px #17265330)}
+.mascot.teddy svg{filter:drop-shadow(0 2px 1px #ffe0b5) drop-shadow(0 8px 5px #75452b55)}
+.mascot.captain svg{filter:drop-shadow(0 2px 1px #fff) drop-shadow(0 8px 5px #17265355)}
+.mascot.bobo svg{filter:drop-shadow(0 2px 1px #d8ffc5) drop-shadow(0 8px 5px #287b5155)}
+.mascot.sunshine svg{filter:drop-shadow(0 2px 1px #ffe3d3) drop-shadow(0 8px 5px #633b3355)}
+.mascot b{font-size:8px;padding:6px 11px;background:linear-gradient(180deg,#fff 0%,#f3f6ff 100%);border:1px solid #e5eaf5;box-shadow:0 5px 15px #17265320}
+.mascot.guide-active{z-index:8;filter:drop-shadow(0 18px 15px #17265348)}
+.mascot.guide-active svg{filter:drop-shadow(0 0 10px #f4c84eaa) drop-shadow(0 8px 6px #17265344)}
+.mascot-guide-bubble{z-index:12;min-width:190px;max-width:230px;white-space:normal;padding:12px 14px;border:2px solid #f4c84e;border-radius:18px 18px 18px 5px;background:linear-gradient(145deg,#fff,#f7faff);box-shadow:0 12px 28px #1726532b;color:#172653}
+.mascot-guide-bubble .guide-message{display:block;font-size:11px;line-height:1.45;font-weight:900}
+.mascot-guide-bubble .guide-link{display:inline-block;margin-top:8px;padding:7px 11px;border-radius:20px;background:linear-gradient(180deg,#ffe58a,#efbd35);color:#172653;font-size:10px;font-weight:1000}
+@keyframes mascotFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+@media(max-width:680px){.mascot-guide-bubble{min-width:165px;max-width:195px;padding:10px 11px}.mascot-guide-bubble .guide-message{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.mascot{animation:none!important}}
