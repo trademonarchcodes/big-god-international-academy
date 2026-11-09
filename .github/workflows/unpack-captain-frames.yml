@@ -1,9 +1,11 @@
 name: Install Captain Star animation frames
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "BGIA-Captain-Star-Animation-Frames.zip"
+      - ".github/workflows/unpack-captain-frames.yml"
 
 permissions:
   contents: write
