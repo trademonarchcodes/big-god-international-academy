@@ -95,10 +95,34 @@ function playMascotAction(el) {
   window.setTimeout(() => el.classList.remove("teddy-greet","bobo-hop","sunshine-twirl"), 1900);
 }
 const captain = document.querySelector(".mascot.captain");
+const captainArt = captain?.querySelector(".mascot-art");
+const captainOriginalSrc = captainArt?.getAttribute("src") || "";
+const captainFrames = {
+  flight: ["assets/mascots/captain-actions/flight-01.webp","assets/mascots/captain-actions/flight-02.webp"],
+  salute: "assets/mascots/captain-actions/salute.webp",
+  wave: "assets/mascots/captain-actions/wave.webp",
+  point: "assets/mascots/captain-actions/point.webp",
+  landing: "assets/mascots/captain-actions/landing.webp"
+};
+const captainPreloaded = {};
+Object.values(captainFrames).flat().forEach(src => { const image = new Image(); image.src = src; captainPreloaded[src] = image; });
 let captainFlightTimer = null;
+let captainFrameTimer = null;
 let captainFlying = false;
+function setCaptainPose(src) {
+  if (captainArt && src) captainArt.src = src;
+}
+function startCaptainFlightFrames() {
+  let frame = 0;
+  setCaptainPose(captainFrames.flight[frame]);
+  window.clearInterval(captainFrameTimer);
+  captainFrameTimer = window.setInterval(() => {
+    frame = (frame + 1) % captainFrames.flight.length;
+    setCaptainPose(captainFrames.flight[frame]);
+  }, 170);
+}
 function launchCaptain() {
-  if (!captain || captainFlying || document.hidden || reduceMotion) return;
+  if (!captain || !captainArt || captainFlying || document.hidden || reduceMotion) return;
   captainFlying = true;
   const home = captain.parentNode;
   const marker = document.createComment("Captain Star home");
@@ -106,29 +130,54 @@ function launchCaptain() {
   document.body.appendChild(captain);
   captain.classList.add("captain-flight");
   captain.setAttribute("aria-label","Captain Star is flying across the school website");
+  startCaptainFlightFrames();
+
+  const pauseForGreeting = () => {
+    window.clearInterval(captainFrameTimer);
+    captainFrameTimer = null;
+    setCaptainPose(captainFrames.salute);
+    captain.classList.add("captain-salute");
+    window.setTimeout(() => setCaptainPose(captainFrames.wave), 650);
+    window.setTimeout(() => setCaptainPose(captainFrames.point), 1350);
+    window.setTimeout(() => {
+      captain.classList.remove("captain-salute");
+      startCaptainFlightFrames();
+    }, 2050);
+  };
   const finishFlight = (event) => {
     if (event && event.target !== captain) return;
+    window.clearInterval(captainFrameTimer);
+    captainFrameTimer = null;
     captain.classList.remove("captain-flight","captain-salute");
-    marker.parentNode?.insertBefore(captain, marker);
-    marker.remove();
+    setCaptainPose(captainFrames.landing);
+    window.setTimeout(() => {
+      marker.parentNode?.insertBefore(captain, marker);
+      marker.remove();
+      setCaptainPose(captainOriginalSrc);
+      captain.setAttribute("aria-label","Captain Star, tap to greet");
+      captainFlying = false;
+      captainFlightTimer = window.setTimeout(launchCaptain, 17000);
+    }, 350);
     captain.removeEventListener("animationend", finishFlight);
-    captain.setAttribute("aria-label","Captain Star, tap to greet");
-    captainFlying = false;
-    captainFlightTimer = window.setTimeout(launchCaptain, 17000);
   };
   captain.addEventListener("animationend", finishFlight);
+  window.setTimeout(pauseForGreeting, 2550);
   window.setTimeout(() => {
-    if (!captainFlying) return;
-    captain.classList.add("captain-salute");
-  }, 2600);
+    if (captainFlying && captain.isConnected) setCaptainPose(captainFrames.landing);
+  }, 6600);
+  window.setTimeout(() => {
+    if (captainFlying && captain.parentNode === document.body) finishFlight();
+  }, 7900);
 }
 if (captain && !reduceMotion) {
   captainFlightTimer = window.setTimeout(launchCaptain, 2600);
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden && captainFlightTimer) {
+    if (document.hidden) {
       window.clearTimeout(captainFlightTimer);
+      window.clearInterval(captainFrameTimer);
       captainFlightTimer = null;
-    } else if (!document.hidden && !captainFlying && !captainFlightTimer) {
+      captainFrameTimer = null;
+    } else if (!captainFlying && !captainFlightTimer) {
       captainFlightTimer = window.setTimeout(launchCaptain, 1600);
     }
   });
