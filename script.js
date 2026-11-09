@@ -78,7 +78,7 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
   const targets = $$(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
   targets.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .65s,transform .65s";});
   const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{
-    if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";if(entry.target.matches(".mascot"))entry.target.classList.add("mascot-entered");observer.unobserve(entry.target);}
+    if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";if(entry.target.matches(".mascot")){entry.target.classList.add("mascot-entered");if(!entry.target.classList.contains("captain"))playMascotAction(entry.target);}observer.unobserve(entry.target);}
   }),{threshold:.08});
   targets.forEach(el=>observer.observe(el));
 }
@@ -106,15 +106,17 @@ function launchCaptain() {
   document.body.appendChild(captain);
   captain.classList.add("captain-flight");
   captain.setAttribute("aria-label","Captain Star is flying across the school website");
-  const finishFlight = () => {
+  const finishFlight = (event) => {
+    if (event && event.target !== captain) return;
     captain.classList.remove("captain-flight","captain-salute");
     marker.parentNode?.insertBefore(captain, marker);
     marker.remove();
+    captain.removeEventListener("animationend", finishFlight);
     captain.setAttribute("aria-label","Captain Star, tap to greet");
     captainFlying = false;
     captainFlightTimer = window.setTimeout(launchCaptain, 17000);
   };
-  captain.addEventListener("animationend", finishFlight, {once:true});
+  captain.addEventListener("animationend", finishFlight);
   window.setTimeout(() => {
     if (!captainFlying) return;
     captain.classList.add("captain-salute");
