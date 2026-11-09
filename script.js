@@ -1,6 +1,6 @@
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
-$("#year").textContent = new Date().getFullYear();
+const year = $("#year");\nif (year) year.textContent = new Date().getFullYear();
 
 const menu = $(".menu"), nav = $(".header nav");
 menu.addEventListener("click", () => {
@@ -13,29 +13,18 @@ $$(".header nav a").forEach(a => a.addEventListener("click", () => {
 }));
 
 const intro = $("#intro");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 function enterSite() {
+  if (!intro || intro.classList.contains("hide")) return;
   intro.classList.add("hide");
   try { sessionStorage.setItem("bga-intro-seen","yes"); } catch(e) {}
-  setTimeout(() => $("#helper").classList.add("show"), 900);
+  setTimeout(() => { const helper=$("#helper"); if(helper) helper.classList.add("show"); }, 900);
 }
 let seen = false;
 try { seen = sessionStorage.getItem("bga-intro-seen") === "yes"; } catch(e) {}
-if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  intro.classList.add("hide");
-  setTimeout(() => $("#helper").classList.add("show"), 900);
-}
-$("#enter").addEventListener("click", enterSite);
-$("#skip").addEventListener("click", enterSite);
-
-const confetti = $("#confetti");
-const colours = ["#f4c84e","#ef8794","#76c9e8","#8bd19a","#b99ae9","#fff"];
-for (let i=0;i<38;i++) {
-  const bit = document.createElement("i");
-  bit.style.setProperty("--x", Math.random()*100+"%");
-  bit.style.setProperty("--c", colours[i%colours.length]);
-  bit.style.setProperty("--d", (4+Math.random()*5)+"s");
-  bit.style.setProperty("--delay", (Math.random()*4)+"s");
-  confetti.appendChild(bit);
+if (intro) {
+  if (seen || reduceMotion) intro.classList.add("hide");
+  else window.setTimeout(enterSite, 2800);
 }
 const greetings = {
   bobo:["Hi there! Welcome to Big God Academy!","Let's learn, play and shine together!","Every little star has a big future!"],
@@ -63,4 +52,23 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
     if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";observer.unobserve(entry.target);}
   }),{threshold:.08});
   targets.forEach(el=>observer.observe(el));
+}
+
+/* Small roaming mascot companions: Captain Star flies; friends bounce and wave. */
+if (!reduceMotion) {
+  const roaming = document.createElement("div");
+  roaming.className = "roaming-mascots";
+  roaming.setAttribute("aria-hidden", "true");
+  const routes = ["roam-bobo", "roam-teddy", "roam-captain", "roam-sunshine"];
+  $$(".mascot").forEach((source, index) => {
+    const buddy = source.cloneNode(true);
+    buddy.className = "roaming-buddy " + routes[index];
+    buddy.removeAttribute("role");
+    buddy.removeAttribute("tabindex");
+    buddy.removeAttribute("data-mascot");
+    buddy.querySelectorAll("b").forEach(label => label.remove());
+    buddy.querySelectorAll("svg").forEach(svg => svg.setAttribute("focusable", "false"));
+    roaming.appendChild(buddy);
+  });
+  document.body.appendChild(roaming);
 }
