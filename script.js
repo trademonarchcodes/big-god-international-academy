@@ -37,7 +37,7 @@ let activeGuide = null;
 function guide(el) {
   const info = guideRoutes[el.dataset.mascot] || guideRoutes.bobo;
   const wasOpen = el.classList.contains("guide-active");
-  $(".mascot").forEach(item => {
+  $$(".mascot").forEach(item => {
     item.classList.remove("guide-active");
     const old = item.querySelector(".mascot-guide-bubble");
     if (old) old.remove();
@@ -62,7 +62,7 @@ function guide(el) {
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
   window.setTimeout(() => el.classList.remove("wave"), 1100);
 }
-$(".mascot").forEach(el => {
+$$(".mascot").forEach(el => {
   el.setAttribute("role","group");
   el.setAttribute("aria-label", (el.querySelector("b")?.textContent || "School mascot") + ", tap to get directions around the website");
   el.addEventListener("click", () => guide(el));
