@@ -39,7 +39,7 @@ WhatsApp currently opens a chat with 07049809645. Please verify this is the scho
 ## Content approval before public launch
 - The pledge is displayed using the wording supplied to us; the school should proofread and approve it.
 - Confirm all three phone numbers and the WhatsApp contact are approved for public display.
-- Replace the illustrative crest artwork with the school's supplied official crest image when binary asset upload is available.
+- `assets/school-crest.svg` is a scalable navy-and-gold illustrative crest; replace it with the supplied official crest image if the school requests an exact reproduction.
 - Mascots are original illustrative characters, not licensed third-party cartoon characters.
 - Add school-approved photographs and admissions information when supplied. No fees, dates, testimonials or accreditation claims have been invented.
 
