@@ -172,3 +172,16 @@
 @keyframes captainHello{to{opacity:1}}
 @media(max-width:680px){.mascot.captain.captain-flight{top:14vh!important;width:100px!important;height:140px!important}.mascot.captain.captain-flight .mascot-guide-bubble{left:65%!important;max-width:43vw;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.mascot.captain.captain-flight,.mascot.captain.captain-flight .mascot-art,.section>.mascot.teddy-greet .mascot-art,.section>.mascot.bobo-hop .mascot-art,.section>.mascot.sunshine-twirl .mascot-art{animation:none!important}}
+
+
+/* Captain Star's frame-based flight performance */
+.mascot.captain.captain-flight{position:fixed!important;left:0!important;top:13vh!important;right:auto!important;bottom:auto!important;width:clamp(112px,14vw,178px)!important;height:clamp(145px,20vw,225px)!important;max-width:none!important;z-index:10050!important;margin:0!important;display:block!important;pointer-events:auto;animation:captainStarFlight 7.4s cubic-bezier(.42,0,.2,1) both!important;filter:drop-shadow(0 14px 18px #1265e577)}
+.mascot.captain.captain-flight .mascot-art{width:100%!important;height:100%!important;object-fit:contain!important;animation:captainCapeFlight .48s ease-in-out infinite alternate!important}
+.mascot.captain.captain-flight::after{content:"";position:absolute;z-index:-1;left:-95px;top:46%;width:150px;height:28px;border-radius:50%;background:linear-gradient(90deg,transparent,#57d9ffbb,#fff,transparent);filter:blur(9px);transform:rotate(-9deg)}
+.mascot.captain.captain-flight.captain-salute .mascot-art{animation:captainSalute .65s ease-in-out 2!important}
+.mascot.captain.captain-flight .mascot-guide-bubble{display:block!important;position:absolute!important;left:66%!important;top:-12px!important;bottom:auto!important;transform:none!important;width:185px;min-width:150px;max-width:44vw;opacity:1!important}
+@keyframes captainStarFlight{0%{transform:translate(-24vw,16vh) rotate(-13deg) scale(.76)}16%{transform:translate(9vw,3vh) rotate(5deg) scale(.94)}34%{transform:translate(38vw,-2vh) rotate(0) scale(1.04)}40%,58%{transform:translate(42vw,-2vh) rotate(-3deg) scale(1.06)}76%{transform:translate(76vw,-8vh) rotate(8deg) scale(.96)}100%{transform:translate(125vw,-18vh) rotate(13deg) scale(.8)}}
+@keyframes captainCapeFlight{from{transform:rotate(-3deg) translateY(0)}to{transform:rotate(4deg) translateY(-5px)}}
+@keyframes captainSalute{0%,100%{transform:rotate(0) translateY(0)}35%{transform:rotate(-9deg) translateY(-7px)}70%{transform:rotate(5deg) translateY(-4px)}}
+@media(max-width:680px){.mascot.captain.captain-flight{top:15vh!important;width:104px!important;height:138px!important}.mascot.captain.captain-flight .mascot-guide-bubble{left:66%!important;max-width:42vw;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.mascot.captain.captain-flight,.mascot.captain.captain-flight .mascot-art{animation:none!important}}
