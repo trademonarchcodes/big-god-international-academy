@@ -3,7 +3,7 @@ name: Install Captain Star animation frames
 on:
   push:
     paths:
-      - "captain-star-action-frames.zip"
+      - "BGIA-Captain-Star-Animation-Frames.zip"
 
 permissions:
   contents: write
@@ -17,7 +17,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract animation assets
-        run: unzip -o captain-star-action-frames.zip -d .
+        run: unzip -o BGIA-Captain-Star-Animation-Frames.zip -d .
       - name: Commit extracted frames
         run: |
           git config user.name "github-actions[bot]"
