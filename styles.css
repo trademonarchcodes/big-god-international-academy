@@ -44,3 +44,22 @@
 
 /* Interactive mascot tour guides */
 .characters{overflow:visible}.mascot{cursor:pointer;touch-action:manipulation}.mascot.guide-active{z-index:12;filter:drop-shadow(0 12px 14px #17265340)}.mascot-guide-bubble{position:absolute;left:50%;bottom:calc(100% + 20px);transform:translateX(-50%);z-index:20;width:clamp(155px,20vw,215px);white-space:normal;padding:12px 13px 11px;background:#fff;border:2px solid #efc75b;border-radius:17px 17px 17px 5px;box-shadow:0 9px 24px #17265326;text-align:left;animation:guide-pop .2s ease-out}.mascot-guide-bubble:after{content:"";position:absolute;left:calc(50% - 8px);bottom:-9px;width:14px;height:14px;background:#fff;border-right:2px solid #efc75b;border-bottom:2px solid #efc75b;transform:rotate(45deg)}.guide-message{display:block;color:#263456;font:800 11px/1.45 Nunito,Arial,sans-serif}.guide-link{display:inline-block;margin-top:8px;padding:6px 9px;border-radius:20px;background:#172653;color:#fff;font:900 9px Nunito,Arial,sans-serif;letter-spacing:.2px}.guide-link:hover,.guide-link:focus-visible{background:#dba62d;color:#172653}.mascot-guide-bubble a{position:relative;z-index:2}.mascot:focus-visible{outline:3px solid #e7ad2d;outline-offset:5px}@keyframes guide-pop{from{opacity:0;transform:translate(-50%,8px) scale(.92)}to{opacity:1;transform:translate(-50%,0) scale(1)}}.roaming-mascots,.roaming-buddy{display:none!important}@media(max-width:680px){.mascot-guide-bubble{width:155px;bottom:calc(100% + 16px);padding:9px 10px}.guide-message{font-size:10px}.guide-link{font-size:8px}.characters{overflow:visible}}
+
+
+/* Guaranteed-visible mascot lineup: keep the guides in normal document flow. */
+.hero-art{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;min-height:370px!important;overflow:visible!important}
+.characters{position:relative!important;inset:auto!important;display:flex!important;visibility:visible!important;opacity:1!important;align-items:flex-end!important;justify-content:center!important;gap:0!important;min-height:270px!important;height:270px!important;padding:88px 4px 18px!important;margin:0 auto!important;overflow:visible!important;z-index:3!important}
+.characters .mascot{display:block!important;visibility:visible!important;opacity:1!important;flex:0 1 24%!important;width:24%!important;max-width:132px!important;min-width:0!important;height:145px!important;margin:0!important;position:relative!important;z-index:3!important}
+.characters .mascot svg{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;overflow:visible!important}
+.characters .mascot b{display:block!important;visibility:visible!important;opacity:1!important;bottom:-8px!important;font-size:7px!important}
+.characters .mascot-guide-bubble{z-index:30!important}
+.hero-art .art-caption{position:relative!important;display:block!important;left:auto!important;bottom:auto!important;transform:none!important;text-align:center!important;margin:18px auto 0!important}
+@media(max-width:680px){
+ .hero-art{min-height:340px!important;margin-top:8px!important;padding-bottom:5px!important}
+ .characters{min-height:245px!important;height:245px!important;padding:82px 0 18px!important;width:100%!important}
+ .characters .mascot{flex-basis:25%!important;width:25%!important;height:125px!important;max-width:100px!important}
+ .characters .mascot b{font-size:6px!important;letter-spacing:.35px!important;padding:4px 5px!important}
+ .characters .mascot-guide-bubble{width:min(155px,42vw)!important;bottom:calc(100% + 13px)!important}
+ .hero-art .art-caption{font-size:7px!important;letter-spacing:1.2px!important;margin-top:14px!important}
+}
+@media(prefers-reduced-motion:reduce){.characters .mascot{animation:none!important}}
