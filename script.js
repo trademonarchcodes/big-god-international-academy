@@ -83,4 +83,53 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
   targets.forEach(el=>observer.observe(el));
 }
 
-/* Mascots stay beside the hero and guide visitors when tapped. */
+
+/* Character personalities: Captain Star flies through the page; each friend has a distinct greeting. */
+function playMascotAction(el) {
+  if (!el) return;
+  el.classList.remove("teddy-greet","bobo-hop","sunshine-twirl");
+  void el.offsetWidth;
+  if (el.classList.contains("teddy")) el.classList.add("teddy-greet");
+  if (el.classList.contains("bobo")) el.classList.add("bobo-hop");
+  if (el.classList.contains("sunshine")) el.classList.add("sunshine-twirl");
+  window.setTimeout(() => el.classList.remove("teddy-greet","bobo-hop","sunshine-twirl"), 1900);
+}
+const captain = document.querySelector(".mascot.captain");
+let captainFlightTimer = null;
+let captainFlying = false;
+function launchCaptain() {
+  if (!captain || captainFlying || document.hidden || reduceMotion) return;
+  captainFlying = true;
+  const home = captain.parentNode;
+  const marker = document.createComment("Captain Star home");
+  home.insertBefore(marker, captain);
+  document.body.appendChild(captain);
+  captain.classList.add("captain-flight");
+  captain.setAttribute("aria-label","Captain Star is flying across the school website");
+  const finishFlight = () => {
+    captain.classList.remove("captain-flight","captain-salute");
+    marker.parentNode?.insertBefore(captain, marker);
+    marker.remove();
+    captain.setAttribute("aria-label","Captain Star, tap to greet");
+    captainFlying = false;
+    captainFlightTimer = window.setTimeout(launchCaptain, 17000);
+  };
+  captain.addEventListener("animationend", finishFlight, {once:true});
+  window.setTimeout(() => {
+    if (!captainFlying) return;
+    captain.classList.add("captain-salute");
+  }, 2600);
+}
+if (captain && !reduceMotion) {
+  captainFlightTimer = window.setTimeout(launchCaptain, 2600);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && captainFlightTimer) {
+      window.clearTimeout(captainFlightTimer);
+      captainFlightTimer = null;
+    } else if (!document.hidden && !captainFlying && !captainFlightTimer) {
+      captainFlightTimer = window.setTimeout(launchCaptain, 1600);
+    }
+  });
+}
+
+/* Mascots stay beside their assigned sections and guide visitors when tapped. */
