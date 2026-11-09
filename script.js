@@ -62,7 +62,7 @@ function guide(el) {
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
   window.setTimeout(() => el.classList.remove("wave"), 1100);
 }
-$(".mascot-guide-bubble a").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
+$("$$.mascot-guide-bubble a").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
 
 $(".mascot").forEach(el => {
   el.setAttribute("role","group");
