@@ -17,11 +17,11 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 function enterSite() {
   if (!intro || intro.classList.contains("hide")) return;
   intro.classList.add("hide");
-  try { sessionStorage.setItem("bga-intro-seen","yes"); } catch(e) {}
+  try { sessionStorage.setItem("bga-intro-seen-v2","yes"); } catch(e) {}
   setTimeout(() => { const helper=$("#helper"); if(helper) helper.classList.add("show"); }, 900);
 }
 let seen = false;
-try { seen = sessionStorage.getItem("bga-intro-seen") === "yes"; } catch(e) {}
+try { seen = sessionStorage.getItem("bga-intro-seen-v2") === "yes"; } catch(e) {}
 if (intro) {
   if (seen || reduceMotion) intro.classList.add("hide");
   else window.setTimeout(enterSite, 2800);
