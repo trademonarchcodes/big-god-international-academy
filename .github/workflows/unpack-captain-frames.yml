@@ -1,0 +1,27 @@
+name: Install Captain Star animation frames
+
+on:
+  push:
+    paths:
+      - "captain-star-action-frames.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  install-frames:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract animation assets
+        run: unzip -o captain-star-action-frames.zip -d .
+      - name: Commit extracted frames
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/mascots/captain-actions
+          git diff --cached --quiet || git commit -m "Add Captain Star animation frame assets"
+          git push
