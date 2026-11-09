@@ -121,3 +121,19 @@
 @keyframes mascotWave{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg) translateY(-3px)}45%{transform:rotate(9deg) translateY(-5px)}70%{transform:rotate(-6deg)}}
 @media(max-width:680px){.mascot-guide-bubble{min-width:150px;max-width:185px;padding:9px 10px}.mascot-guide-bubble .guide-message{font-size:10px}.mascot-guide-bubble .guide-link{font-size:9px}.section .visitor-mascot .mascot-guide-bubble{min-width:150px;max-width:180px}}
 @media(prefers-reduced-motion:reduce){.mascot.wave .mascot-art{animation:none!important}}
+
+
+/* Place each mascot beside its own section, without crowding the section copy. */
+.section>.mascot{position:absolute!important;z-index:6;width:104px;height:138px;margin:0;animation:mascotFloat 4s ease-in-out infinite}
+.section>.mascot .mascot-art{width:100%;height:100%;object-fit:contain}
+#about>.mascot.teddy{right:6%;top:38px}
+#academics>.mascot.captain{right:6%;top:38px;width:110px;height:142px}
+#life>.mascot.bobo{right:6%;top:30px;width:112px;height:148px}
+#contact>.mascot.sunshine{right:6%;top:38px}
+.section>.mascot .mascot-guide-bubble{bottom:calc(100% + 13px);left:50%;transform:translateX(-50%);width:190px}
+#about>.mascot .mascot-guide-bubble,#academics>.mascot .mascot-guide-bubble,#life>.mascot .mascot-guide-bubble,#contact>.mascot .mascot-guide-bubble{z-index:40}
+@media(max-width:680px){
+ .section>.mascot{width:65px;height:88px;top:18px!important;right:5%!important}
+ #academics>.mascot.captain,#life>.mascot.bobo{width:68px;height:92px}
+ .section>.mascot .mascot-guide-bubble{width:min(155px,48vw);max-width:48vw;bottom:calc(100% + 12px)}
+}
