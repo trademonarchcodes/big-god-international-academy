@@ -63,3 +63,23 @@
  .hero-art .art-caption{font-size:7px!important;letter-spacing:1.2px!important;margin-top:14px!important}
 }
 @media(prefers-reduced-motion:reduce){.characters .mascot{animation:none!important}}
+
+/* Distributed mascot tour: one guide appears in each relevant section. */
+.hero-art .characters{display:none!important}
+.section{position:relative;overflow:visible}
+.section .visitor-mascot{display:block!important;visibility:visible!important;opacity:1!important;position:absolute!important;width:94px!important;height:126px!important;max-width:94px!important;min-width:0!important;margin:0!important;z-index:5!important;cursor:pointer;animation:mascot-arrive .7s ease both}
+.section .visitor-mascot svg{display:block;width:100%;height:100%;overflow:visible}
+.section .visitor-mascot b{display:block;position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:8px;background:#fff;border:1px solid #f0cb63;border-radius:20px;padding:5px 8px;color:#172653;box-shadow:0 4px 12px #17265318}
+#about .visitor-mascot{right:7%;top:28px}
+#academics .visitor-mascot{right:7%;top:34px}
+#life .visitor-mascot{right:7%;top:38px}
+#contact .visitor-mascot{right:7%;top:34px}
+.section .visitor-mascot .mascot-guide-bubble{position:absolute;left:50%;bottom:calc(100% + 18px);width:190px;max-width:42vw;z-index:30}
+.section .visitor-mascot.guide-active{z-index:40;filter:drop-shadow(0 10px 14px #17265335)}
+@keyframes mascot-arrive{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
+@media(max-width:680px){
+ .section .visitor-mascot{width:65px!important;height:88px!important;max-width:65px!important;top:22px!important;right:5%!important}
+ .section .visitor-mascot b{font-size:6px;padding:4px 6px;bottom:-7px}
+ .section .visitor-mascot .mascot-guide-bubble{width:min(155px,48vw);max-width:48vw;bottom:calc(100% + 14px)}
+}
+@media(prefers-reduced-motion:reduce){.section .visitor-mascot{animation:none!important}}
