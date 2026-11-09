@@ -107,3 +107,17 @@
 @keyframes mascotFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
 @media(max-width:680px){.mascot-guide-bubble{min-width:165px;max-width:195px;padding:10px 11px}.mascot-guide-bubble .guide-message{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.mascot{animation:none!important}}
+
+
+/* Custom BGIA mascot artwork and accessible tour-guide bubbles */
+.mascot .mascot-art{display:block;width:100%;height:100%;object-fit:contain;overflow:visible;filter:drop-shadow(0 9px 8px #17265335);transform-origin:50% 85%}
+.section .visitor-mascot .mascot-art{width:100%;height:100%;object-fit:contain}
+.mascot-guide-bubble{min-width:175px;max-width:225px;padding:11px 13px;border:2px solid #efc64d;border-radius:17px 17px 17px 5px;background:linear-gradient(145deg,#fff,#f3f7ff);box-shadow:0 10px 25px #1726532b;color:#172653}
+.mascot-guide-bubble .guide-message{display:block;font:900 11px/1.4 Nunito,Arial,sans-serif;color:#172653}
+.mascot-guide-bubble .guide-link{display:inline-block;margin-top:8px;padding:7px 11px;border-radius:20px;background:linear-gradient(180deg,#ffe58a,#efbd35);color:#172653;font:1000 10px/1.2 Nunito,Arial,sans-serif;text-decoration:none;box-shadow:0 3px 0 #c58c1c}
+.mascot-guide-bubble .guide-link:hover,.mascot-guide-bubble .guide-link:focus-visible{background:#172653;color:#fff}
+.section .visitor-mascot .mascot-guide-bubble{min-width:175px;max-width:220px}
+.mascot.wave .mascot-art{animation:mascotWave .72s ease-in-out 2}
+@keyframes mascotWave{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg) translateY(-3px)}45%{transform:rotate(9deg) translateY(-5px)}70%{transform:rotate(-6deg)}}
+@media(max-width:680px){.mascot-guide-bubble{min-width:150px;max-width:185px;padding:9px 10px}.mascot-guide-bubble .guide-message{font-size:10px}.mascot-guide-bubble .guide-link{font-size:9px}.section .visitor-mascot .mascot-guide-bubble{min-width:150px;max-width:180px}}
+@media(prefers-reduced-motion:reduce){.mascot.wave .mascot-art{animation:none!important}}
