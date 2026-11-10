@@ -369,3 +369,7 @@ footer .footer-bottom>.footer-credit{position:relative;z-index:3}
 @media(max-width:680px){
   .mascot.captain.captain-flight{width:104px!important;height:104px!important}
 }
+
+
+/* The clean vector flight poses have their own transparent canvas; show the full figure. */
+.mascot.captain.captain-flight .mascot-art[src$=".svg"]{clip-path:none!important;object-fit:contain!important;object-position:center!important}
