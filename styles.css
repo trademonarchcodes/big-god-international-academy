@@ -370,3 +370,11 @@ footer .footer-bottom>.footer-credit{position:relative;z-index:3}
   .mascot.captain.captain-flight{width:104px!important;height:104px!important}
 }
 
+
+
+/* Captain Star must never sit on top of school copy or intercept visitor taps. */
+.mascot.captain.captain-flight{
+  z-index:18!important;
+  pointer-events:none!important;
+}
+.mascot.captain.captain-flight .mascot-guide-bubble{display:none!important}
