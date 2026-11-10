@@ -65,6 +65,7 @@ function guide(el) {
     closeGuide();
   });
   el.appendChild(bubble);
+  playMascotAction(el);
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
   window.setTimeout(() => el.classList.remove("wave"), 1100);
   // Keep the compact greeting brief; it never stays over the mascot.
@@ -86,7 +87,7 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
   const targets = $$(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
   targets.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .65s,transform .65s";});
   const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{
-    if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";if(entry.target.matches(".mascot")){entry.target.classList.add("mascot-entered");if(!entry.target.classList.contains("captain"))playMascotAction(entry.target);}observer.unobserve(entry.target);}
+    if(entry.isIntersecting){entry.target.style.opacity="1";entry.target.style.transform="none";if(entry.target.matches(".mascot")){entry.target.classList.add("mascot-entered");if(!entry.target.classList.contains("captain"))playMascotAction(entry.target);}else{observer.unobserve(entry.target);}}
   }),{threshold:.08});
   targets.forEach(el=>observer.observe(el));
 }
