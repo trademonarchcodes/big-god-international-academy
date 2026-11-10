@@ -34,19 +34,27 @@ const guideRoutes = {
   sunshine: { message:"Parents, let's take the next step together. We're happy to help!", label:"Contact the School", target:"#contact" }
 };
 let activeGuide = null;
+let guideDismissTimer = null;
+function closeGuide() {
+  if (guideDismissTimer) window.clearTimeout(guideDismissTimer);
+  guideDismissTimer = null;
+  $$(".mascot").forEach(item => {
+    item.classList.remove("guide-active");
+    const bubble = item.querySelector(".mascot-guide-bubble");
+    if (bubble) bubble.remove();
+  });
+  activeGuide = null;
+}
 function guide(el) {
   const info = guideRoutes[el.dataset.mascot] || guideRoutes.bobo;
   const wasOpen = el.classList.contains("guide-active");
-  $$(".mascot").forEach(item => {
-    item.classList.remove("guide-active");
-    const old = item.querySelector(".mascot-guide-bubble");
-    if (old) old.remove();
-  });
-  if (wasOpen) { activeGuide = null; return; }
+  closeGuide();
+  if (wasOpen) return;
   activeGuide = el;
   el.classList.add("guide-active");
   const bubble = document.createElement("div");
   bubble.className = "mascot-guide-bubble";
+  bubble.setAttribute("role", "status");
   bubble.innerHTML = '<span class="guide-message"></span><a class="guide-link"></a>';
   bubble.querySelector(".guide-message").textContent = info.message;
   const link = bubble.querySelector(".guide-link");
@@ -54,13 +62,13 @@ function guide(el) {
   link.href = info.target;
   link.addEventListener("click", event => {
     event.stopPropagation();
-    el.classList.remove("guide-active");
-    bubble.remove();
-    activeGuide = null;
+    closeGuide();
   });
   el.appendChild(bubble);
   el.classList.remove("wave"); void el.offsetWidth; el.classList.add("wave");
   window.setTimeout(() => el.classList.remove("wave"), 1100);
+  // Keep the compact greeting brief; it never stays over the mascot.
+  guideDismissTimer = window.setTimeout(closeGuide, 4200);
 }
 document.querySelectorAll(".mascot-guide-bubble a").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
 
