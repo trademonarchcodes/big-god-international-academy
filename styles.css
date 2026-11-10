@@ -330,3 +330,8 @@ footer .footer-bottom>.footer-credit a:focus-visible{
   footer .footer-bottom>span:first-child{flex:1 1 100%!important;text-align:center!important}
   footer .footer-bottom>.footer-credit{font-size:12px!important;margin-top:3px!important}
 }
+
+
+/* The floating mascot hint must never cover the footer credit. */
+.helper.footer-hidden{display:none!important;visibility:hidden!important;pointer-events:none!important}
+footer .footer-bottom>.footer-credit{position:relative;z-index:3}
