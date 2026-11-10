@@ -122,7 +122,7 @@ function startCaptainFlightFrames() {
   captainFrameTimer = window.setInterval(() => {
     frame = (frame + 1) % captainFrames.flight.length;
     setCaptainPose(captainFrames.flight[frame]);
-  }, 170);
+  }, 100);
 }
 function launchCaptain() {
   if (!captain || !captainArt || captainFlying || document.hidden || reduceMotion) return;
