@@ -139,45 +139,65 @@ async function launchCaptain() {
   captain.style.left = "0px";
   captain.style.top = "0px";
   captain.style.transform = "translate(0px,0px)";
-  // Square viewport keeps the original transparent artwork at its natural proportions.
-  const size = () => Math.min(window.innerWidth * .17, 178);
+  // Keep Captain Star inside genuinely empty screen space. Check text, controls,
+  // cards and the other mascots before choosing both landing spots and flight paths.
+  const size = () => Math.min(window.innerWidth * .115, 132);
   const maxX = () => Math.max(8, window.innerWidth - size() - 8);
   const maxY = () => Math.max(8, window.innerHeight - size() - 8);
-  const rawSpots = [
-    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,hold:650},
-    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,hold:650},
-    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,hold:650},
-    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,hold:850}
+  const captainWidth = size();
+  const captainHeight = size();
+  const pad = 18;
+  const blockerSelector = [
+    "h1","h2","h3","h4","p","li","button","a","label",
+    ".stage",".section-head",".feature",".stat",".mascot:not(.captain)",
+    ".mascot-guide-bubble","nav","header","footer"
+  ].join(",");
+  const blockers = [...document.querySelectorAll(blockerSelector)]
+    .filter(el => el !== captain && !captain.contains(el))
+    .map(el => {
+      const r = el.getBoundingClientRect();
+      const style = getComputedStyle(el);
+      return {r,visible:style.display!=="none" && style.visibility!=="hidden" &&
+        Number(style.opacity)>0 && r.width>2 && r.height>2 &&
+        r.right>0 && r.bottom>0 && r.left<innerWidth && r.top<innerHeight};
+    }).filter(x=>x.visible).map(x=>x.r);
+  const clearAt = (x,y) => {
+    const box={left:x-pad,top:y-pad,right:x+captainWidth+pad,bottom:y+captainHeight+pad};
+    return !blockers.some(r=>box.left<r.right && box.right>r.left &&
+      box.top<r.bottom && box.bottom>r.top);
+  };
+  const clearRoute = (from,to) => {
+    // Sample the curved flight arc so he never sweeps across copy or another mascot.
+    for(let i=0;i<=16;i++){
+      const t=i/16;
+      const x=from.x+(to.x-from.x)*t;
+      const arc=Math.sin(Math.PI*t)*Math.min(64,window.innerHeight*.09);
+      const y=from.y+(to.y-from.y)*t-arc;
+      if(!clearAt(x,y)) return false;
+    }
+    return true;
+  };
+  const candidateGrid = [
+    [.02,.08],[.78,.08],[.02,.72],[.78,.72],
+    [.18,.08],[.58,.08],[.18,.72],[.58,.72],
+    [.02,.38],[.84,.38],[.36,.08],[.36,.72],
+    [.10,.20],[.70,.20],[.10,.56],[.70,.56]
   ];
-  // Only choose landing zones that do not overlap another mascot currently on screen.
-  const captainWidth = Math.min(window.innerWidth * .13, 165);
-  const captainHeight = captain.offsetHeight || Math.min(window.innerHeight * .28, 220);
-  const safeCandidates = [
-    [.07,.16], [.76,.31], [.43,.63], [.09,.47],
-    [.72,.12], [.48,.28], [.18,.68], [.78,.67],
-    [.34,.12], [.08,.34], [.62,.52], [.30,.76]
-  ];
-  const otherMascots = [...document.querySelectorAll(".mascot:not(.captain)")]
-    .map(el => el.getBoundingClientRect())
-    .filter(r => r.width && r.height && r.right > 0 && r.bottom > 0 &&
-      r.left < window.innerWidth && r.top < window.innerHeight);
-  const overlapsMascot = (x,y) => otherMascots.some(r =>
-    x < r.right + 34 && x + captainWidth > r.left - 34 &&
-    y < r.bottom + 34 && y + captainHeight > r.top - 34
-  );
-  const spots = rawSpots.map((preferred, index) => {
-    const candidates = safeCandidates.map(([x,y]) => ({
-      x:Math.max(8,Math.min(maxX(),window.innerWidth*x)),
-      y:Math.max(8,Math.min(maxY(),window.innerHeight*y)),
-      turn:preferred.turn, hold:preferred.hold
-    })).filter(p => !overlapsMascot(p.x,p.y));
-    const safe = candidates.sort((a,b) =>
-      Math.hypot(a.x-preferred.x,a.y-preferred.y) -
-      Math.hypot(b.x-preferred.x,b.y-preferred.y)
-    )[0];
-    // If every zone is occupied, skip this landing rather than touch another character.
-    return safe || null;
-  }).filter(Boolean);
+  const spots=[];
+  let previous={x:-captainWidth,y:Math.max(8,window.innerHeight*.12)};
+  for(const [fx,fy] of candidateGrid){
+    const candidate={
+      x:Math.max(8,Math.min(maxX(),window.innerWidth*fx)),
+      y:Math.max(8,Math.min(maxY(),window.innerHeight*fy)),
+      turn:((spots.length%2)?8:-7),
+      hold:450
+    };
+    if(clearAt(candidate.x,candidate.y) && clearRoute(previous,candidate)){
+      spots.push(candidate);
+      previous={x:candidate.x,y:candidate.y};
+      if(spots.length===4) break;
+    }
+  }
   try {
     let previous = {x:-size(),y:window.innerHeight*.12};
     for (const spot of spots) {
