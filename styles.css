@@ -231,3 +231,19 @@
   .mascot.guide-active .mascot-guide-bubble .guide-message {font-size:8px !important}
   .mascot.guide-active .mascot-guide-bubble .guide-link {font-size:7px !important}
 }
+
+
+/* Mascots are deliberately distributed across the page, not stacked on the right. */
+#about>.mascot.teddy{left:5%!important;right:auto!important;top:42px!important}
+#academics>.mascot.captain{left:43%!important;right:auto!important;top:36px!important}
+#life>.mascot.bobo{left:5%!important;right:auto!important;top:42%!important}
+#contact>.mascot.sunshine{right:5%!important;left:auto!important;top:42px!important}
+/* Captain's position is driven by separate take-off/flight/landing moves in script.js. */
+.mascot.captain.captain-flight{position:fixed!important;left:0!important;top:0!important;right:auto!important;bottom:auto!important;animation:none!important;will-change:transform;z-index:10050!important}
+.mascot.captain.captain-flight .mascot-art{animation:none!important;object-fit:contain!important}
+@media(max-width:680px){
+ #about>.mascot.teddy{left:4%!important;right:auto!important;top:20px!important}
+ #academics>.mascot.captain{left:40%!important;right:auto!important;top:18px!important}
+ #life>.mascot.bobo{left:4%!important;right:auto!important;top:20px!important}
+ #contact>.mascot.sunshine{right:4%!important;left:auto!important;top:20px!important}
+}
