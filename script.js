@@ -146,50 +146,55 @@ async function launchCaptain() {
   home.insertBefore(marker, captain);
   document.body.appendChild(captain);
   captain.classList.add("captain-flight");
-  captain.setAttribute("aria-label","Captain Star is flying between landing spots");
+  captain.setAttribute("aria-label","Captain Star is flying between four landing spots");
   captain.style.left = "0px";
   captain.style.top = "0px";
   captain.style.transform = "translate(0px,0px)";
-  const w = () => Math.min(window.innerWidth * .17, 178);
-  const h = () => Math.min(window.innerHeight * .23, 225);
-  const spots = [
-    {x:window.innerWidth*.06,y:window.innerHeight*.18,turn:-8,pose:captainFrames.salute},
-    {x:window.innerWidth*.76,y:window.innerHeight*.34,turn:9,pose:captainFrames.wave},
-    {x:window.innerWidth*.40,y:window.innerHeight*.62,turn:-4,pose:captainFrames.point},
-    {x:window.innerWidth*.08,y:window.innerHeight*.48,turn:7,pose:captainFrames.landing}
+  const width = () => Math.min(window.innerWidth * .17, 178);
+  const height = () => Math.min(window.innerHeight * .23, 225);
+  const maxX = () => Math.max(8, window.innerWidth - width() - 8);
+  const maxY = () => Math.max(8, window.innerHeight - height() - 8);
+  const rawSpots = [
+    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,pose:captainFrames.salute,hold:650},
+    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,pose:captainFrames.wave,hold:650},
+    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,pose:captainFrames.point,hold:650},
+    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,pose:captainFrames.landing,hold:850}
   ];
-  const maxX = () => Math.max(8, window.innerWidth - w() - 8);
-  const maxY = () => Math.max(8, window.innerHeight - h() - 8);
-  const framePause = ms => wait(ms);
+  const spots = rawSpots.map(p=>({...p,x:Math.max(8,Math.min(maxX(),p.x)),y:Math.max(8,Math.min(maxY(),p.y))}));
+  let frameIndex = 0;
+  let frameTimer = null;
+  const showFlightFrame = () => setCaptainPose(captainFrames.flight[frameIndex++ % captainFrames.flight.length]);
   try {
-    let previous = {x:-w(),y:window.innerHeight*.12};
+    let previous = {x:-width(),y:window.innerHeight*.12};
     for (let leg=0; leg<spots.length; leg++) {
       if (!captain.isConnected || document.hidden) break;
-      const spot=spots[leg], x=Math.max(8,Math.min(maxX(),spot.x)), y=Math.max(8,Math.min(maxY(),spot.y));
-      const first=leg*8;
-      let frame=first;
-      setCaptainPose(captainFrames.flight[frame]);
-      const frameTimer=window.setInterval(()=>{
-        frame=Math.min(first+7,frame+1);
-        setCaptainPose(captainFrames.flight[frame]);
-      },105);
-      const move=captain.animate([
-        {transform:`translate(${previous.x}px,${previous.y}px) rotate(${spot.turn-10}deg) scale(.88)`},
-        {transform:`translate(${(previous.x+x)/2}px,${Math.min(previous.y,y)-24}px) rotate(${spot.turn+5}deg) scale(1.04)`},
-        {transform:`translate(${x}px,${y}px) rotate(${spot.turn}deg) scale(1)`}
-      ],{duration:1050,easing:"cubic-bezier(.22,.72,.24,1)",fill:"forwards"});
+      const spot = spots[leg];
+      // Each leg gets a fresh eight-frame section of the flight sequence.
+      const firstFrame = leg * 8;
+      frameIndex = firstFrame;
+      showFlightFrame();
+      frameTimer = window.setInterval(() => {
+        if (frameIndex < firstFrame + 8) showFlightFrame();
+      }, 135);
+      const move = captain.animate([
+        {transform:`translate(${previous.x}px,${previous.y}px) rotate(${spot.turn-13}deg) scale(.82)`},
+        {transform:`translate(${(previous.x+spot.x)/2}px,${Math.min(previous.y,spot.y)-55}px) rotate(${spot.turn+8}deg) scale(1.08)`},
+        {transform:`translate(${spot.x}px,${spot.y}px) rotate(${spot.turn}deg) scale(1)`}
+      ],{duration:1120,easing:"cubic-bezier(.18,.72,.2,1)",fill:"forwards"});
       await move.finished.catch(()=>{});
       window.clearInterval(frameTimer);
-      captain.style.transform=`translate(${x}px,${y}px) rotate(0deg) scale(1)`;
+      frameTimer = null;
+      captain.style.transform=`translate(${spot.x}px,${spot.y}px) rotate(0deg) scale(1)`;
       setCaptainPose(spot.pose);
       captain.classList.add("captain-salute");
-      await framePause(leg===3?650:520);
+      await wait(spot.hold);
       captain.classList.remove("captain-salute");
-      previous={x,y};
+      previous = {x:spot.x,y:spot.y};
     }
   } finally {
+    window.clearInterval(frameTimer);
     captain.classList.remove("captain-flight","captain-salute");
-    captain.getAnimations().forEach(a=>a.cancel());
+    captain.getAnimations().forEach(animation=>animation.cancel());
     captain.style.left="";
     captain.style.top="";
     captain.style.transform="";
@@ -198,7 +203,7 @@ async function launchCaptain() {
     marker.remove();
     captain.setAttribute("aria-label","Captain Star, tap to greet");
     captainFlying=false;
-    captainFlightTimer=window.setTimeout(launchCaptain,12000);
+    captainFlightTimer=window.setTimeout(launchCaptain,15000);
   }
 }
 if (captain && !reduceMotion) {
