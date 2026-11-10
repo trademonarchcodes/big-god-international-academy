@@ -119,20 +119,9 @@ function playMascotAction(el) {
 const captain = document.querySelector(".mascot.captain");
 const captainArt = captain?.querySelector(".mascot-art");
 const captainOriginalSrc = captainArt?.getAttribute("src") || "";
-const captainFrames = {
-  // Full 32-frame Captain Star flight sequence uploaded to GitHub.
-  flight: Array.from({ length: 32 }, (_, index) =>
-    `assets/mascots/captain-actions/flight-${String(index + 1).padStart(2, "0")}.webp`
-  ),
-  salute: "assets/mascots/captain-actions/salute.webp",
-  wave: "assets/mascots/captain-actions/wave.webp",
-  point: "assets/mascots/captain-actions/point.webp",
-  landing: "assets/mascots/captain-actions/landing.webp"
-};
-const captainPreloaded = {};
-Object.values(captainFrames).flat().forEach(src => { const image = new Image(); image.src = src; captainPreloaded[src] = image; });
+// Use the clean, full-size Captain Star artwork during flight. The old extracted
+// sprite frames contain neighbouring poses and clipped limbs, so they are intentionally bypassed.
 let captainFlightTimer = null;
-let captainFrameTimer = null;
 let captainFlying = false;
 function setCaptainPose(src) {
   if (captainArt && src) captainArt.src = src;
@@ -150,49 +139,35 @@ async function launchCaptain() {
   captain.style.left = "0px";
   captain.style.top = "0px";
   captain.style.transform = "translate(0px,0px)";
-  const width = () => Math.min(window.innerWidth * .17, 178);
-  const height = () => Math.min(window.innerHeight * .23, 225);
-  const maxX = () => Math.max(8, window.innerWidth - width() - 8);
-  const maxY = () => Math.max(8, window.innerHeight - height() - 8);
+  // Square viewport keeps the original transparent artwork at its natural proportions.
+  const size = () => Math.min(window.innerWidth * .17, 178);
+  const maxX = () => Math.max(8, window.innerWidth - size() - 8);
+  const maxY = () => Math.max(8, window.innerHeight - size() - 8);
   const rawSpots = [
-    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,pose:captainFrames.salute,hold:650},
-    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,pose:captainFrames.wave,hold:650},
-    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,pose:captainFrames.point,hold:650},
-    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,pose:captainFrames.landing,hold:850}
+    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,hold:650},
+    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,hold:650},
+    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,hold:650},
+    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,hold:850}
   ];
   const spots = rawSpots.map(p=>({...p,x:Math.max(8,Math.min(maxX(),p.x)),y:Math.max(8,Math.min(maxY(),p.y))}));
-  let frameIndex = 0;
-  let frameTimer = null;
-  const showFlightFrame = () => setCaptainPose(captainFrames.flight[frameIndex++ % captainFrames.flight.length]);
   try {
-    let previous = {x:-width(),y:window.innerHeight*.12};
-    for (let leg=0; leg<spots.length; leg++) {
+    let previous = {x:-size(),y:window.innerHeight*.12};
+    for (const spot of spots) {
       if (!captain.isConnected || document.hidden) break;
-      const spot = spots[leg];
-      // Each leg gets a fresh eight-frame section of the flight sequence.
-      const firstFrame = leg * 8;
-      frameIndex = firstFrame;
-      showFlightFrame();
-      frameTimer = window.setInterval(() => {
-        if (frameIndex < firstFrame + 8) showFlightFrame();
-      }, 135);
+      setCaptainPose(captainOriginalSrc);
       const move = captain.animate([
         {transform:`translate(${previous.x}px,${previous.y}px) rotate(${spot.turn-13}deg) scale(.82)`},
         {transform:`translate(${(previous.x+spot.x)/2}px,${Math.min(previous.y,spot.y)-55}px) rotate(${spot.turn+8}deg) scale(1.08)`},
         {transform:`translate(${spot.x}px,${spot.y}px) rotate(${spot.turn}deg) scale(1)`}
-      ],{duration:1120,easing:"cubic-bezier(.18,.72,.2,1)",fill:"forwards"});
+      ],{duration:1250,easing:"cubic-bezier(.18,.72,.2,1)",fill:"forwards"});
       await move.finished.catch(()=>{});
-      window.clearInterval(frameTimer);
-      frameTimer = null;
       captain.style.transform=`translate(${spot.x}px,${spot.y}px) rotate(0deg) scale(1)`;
-      setCaptainPose(spot.pose);
       captain.classList.add("captain-salute");
       await wait(spot.hold);
       captain.classList.remove("captain-salute");
       previous = {x:spot.x,y:spot.y};
     }
   } finally {
-    window.clearInterval(frameTimer);
     captain.classList.remove("captain-flight","captain-salute");
     captain.getAnimations().forEach(animation=>animation.cancel());
     captain.style.left="";
@@ -211,9 +186,7 @@ if (captain && !reduceMotion) {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       window.clearTimeout(captainFlightTimer);
-      window.clearInterval(captainFrameTimer);
       captainFlightTimer = null;
-      captainFrameTimer = null;
     } else if (!captainFlying && !captainFlightTimer) {
       captainFlightTimer = window.setTimeout(launchCaptain, 1600);
     }
