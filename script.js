@@ -83,6 +83,19 @@ $$(".mascot").forEach(el => {
 });
 $("#dismiss").addEventListener("click",()=>$("#helper").classList.remove("show"));
 
+// Keep the floating mascot hint out of the footer so the DEVLYON credit stays visible.
+const mascotHint = $("#helper");
+const pageFooter = $("footer");
+if (mascotHint && pageFooter && "IntersectionObserver" in window) {
+  const footerHintObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      mascotHint.classList.toggle("footer-hidden", entry.isIntersecting);
+    });
+  }, {threshold:0.01});
+  footerHintObserver.observe(pageFooter);
+}
+
+
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const targets = $$(".section,.stage,.tradition-grid article,.contact-grid,.section>.mascot");
   targets.forEach(el=>{el.style.opacity="0";el.style.transform="translateY(18px)";el.style.transition="opacity .65s,transform .65s";});
