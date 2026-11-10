@@ -341,3 +341,31 @@ footer .footer-bottom>.footer-credit{position:relative;z-index:3}
 .mascot.captain.captain-flight{animation:none!important;transition:none!important;will-change:transform;transform-origin:50% 50%!important}
 .mascot.captain.captain-flight .mascot-art{animation:none!important;will-change:auto;transform:none!important}
 .mascot.captain.captain-flight.captain-salute .mascot-art{animation:captainSalute .65s ease-in-out 1!important}
+
+
+/* Clean flight rendering: use the complete original art instead of corrupted sprite crops. */
+.mascot.captain.captain-flight{
+  width:clamp(104px,14vw,178px)!important;
+  height:clamp(104px,14vw,178px)!important;
+  aspect-ratio:1/1!important;
+  overflow:visible!important;
+  animation:none!important;
+  transition:none!important;
+  will-change:transform;
+  transform-origin:50% 50%!important;
+}
+.mascot.captain.captain-flight .mascot-art{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center top!important;
+  clip-path:inset(0 0 10% 0)!important;
+  animation:none!important;
+  filter:none!important;
+}
+.mascot.captain.captain-flight.captain-salute .mascot-art{
+  animation:captainSalute .65s ease-in-out 1!important;
+}
+@media(max-width:680px){
+  .mascot.captain.captain-flight{width:104px!important;height:104px!important}
+}
