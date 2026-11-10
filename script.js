@@ -98,7 +98,10 @@ const captain = document.querySelector(".mascot.captain");
 const captainArt = captain?.querySelector(".mascot-art");
 const captainOriginalSrc = captainArt?.getAttribute("src") || "";
 const captainFrames = {
-  flight: ["assets/mascots/captain-actions/flight-01.webp","assets/mascots/captain-actions/flight-02.webp"],
+  // Full 32-frame Captain Star flight sequence uploaded to GitHub.
+  flight: Array.from({ length: 32 }, (_, index) =>
+    `assets/mascots/captain-actions/flight-${String(index + 1).padStart(2, "0")}.webp`
+  ),
   salute: "assets/mascots/captain-actions/salute.webp",
   wave: "assets/mascots/captain-actions/wave.webp",
   point: "assets/mascots/captain-actions/point.webp",
