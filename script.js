@@ -143,18 +143,24 @@ async function launchCaptain() {
   const size = () => Math.min(window.innerWidth * .17, 178);
   const maxX = () => Math.max(8, window.innerWidth - size() - 8);
   const maxY = () => Math.max(8, window.innerHeight - size() - 8);
+  const poseBase = "/assets/mascots/captain-actions/";
+  const poseSources = {
+    flight: poseBase + "captain-flight.svg",
+    wave: poseBase + "captain-wave.svg",
+    landing: poseBase + "captain-landing.svg"
+  };
   const rawSpots = [
-    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,hold:650},
-    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,hold:650},
-    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,hold:650},
-    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,hold:850}
+    {x:window.innerWidth*.07,y:window.innerHeight*.16,turn:-9,hold:650,pose:"flight"},
+    {x:window.innerWidth*.76,y:window.innerHeight*.31,turn:10,hold:850,pose:"wave"},
+    {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,hold:650,pose:"flight"},
+    {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,hold:900,pose:"landing"}
   ];
   const spots = rawSpots.map(p=>({...p,x:Math.max(8,Math.min(maxX(),p.x)),y:Math.max(8,Math.min(maxY(),p.y))}));
   try {
     let previous = {x:-size(),y:window.innerHeight*.12};
     for (const spot of spots) {
       if (!captain.isConnected || document.hidden) break;
-      setCaptainPose(captainOriginalSrc);
+      setCaptainPose(poseSources[spot.pose] || poseSources.flight);
       const move = captain.animate([
         {transform:`translate(${previous.x}px,${previous.y}px) rotate(${spot.turn-13}deg) scale(.82)`},
         {transform:`translate(${(previous.x+spot.x)/2}px,${Math.min(previous.y,spot.y)-55}px) rotate(${spot.turn+8}deg) scale(1.08)`},
