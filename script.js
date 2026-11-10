@@ -149,7 +149,35 @@ async function launchCaptain() {
     {x:window.innerWidth*.43,y:window.innerHeight*.63,turn:-6,hold:650},
     {x:window.innerWidth*.09,y:window.innerHeight*.47,turn:7,hold:850}
   ];
-  const spots = rawSpots.map(p=>({...p,x:Math.max(8,Math.min(maxX(),p.x)),y:Math.max(8,Math.min(maxY(),p.y))}));
+  // Only choose landing zones that do not overlap another mascot currently on screen.
+  const captainWidth = Math.min(window.innerWidth * .13, 165);
+  const captainHeight = captain.offsetHeight || Math.min(window.innerHeight * .28, 220);
+  const safeCandidates = [
+    [.07,.16], [.76,.31], [.43,.63], [.09,.47],
+    [.72,.12], [.48,.28], [.18,.68], [.78,.67],
+    [.34,.12], [.08,.34], [.62,.52], [.30,.76]
+  ];
+  const otherMascots = [...document.querySelectorAll(".mascot:not(.captain)")]
+    .map(el => el.getBoundingClientRect())
+    .filter(r => r.width && r.height && r.right > 0 && r.bottom > 0 &&
+      r.left < window.innerWidth && r.top < window.innerHeight);
+  const overlapsMascot = (x,y) => otherMascots.some(r =>
+    x < r.right + 34 && x + captainWidth > r.left - 34 &&
+    y < r.bottom + 34 && y + captainHeight > r.top - 34
+  );
+  const spots = rawSpots.map((preferred, index) => {
+    const candidates = safeCandidates.map(([x,y]) => ({
+      x:Math.max(8,Math.min(maxX(),window.innerWidth*x)),
+      y:Math.max(8,Math.min(maxY(),window.innerHeight*y)),
+      turn:preferred.turn, hold:preferred.hold
+    })).filter(p => !overlapsMascot(p.x,p.y));
+    const safe = candidates.sort((a,b) =>
+      Math.hypot(a.x-preferred.x,a.y-preferred.y) -
+      Math.hypot(b.x-preferred.x,b.y-preferred.y)
+    )[0];
+    // If every zone is occupied, skip this landing rather than touch another character.
+    return safe || null;
+  }).filter(Boolean);
   try {
     let previous = {x:-size(),y:window.innerHeight*.12};
     for (const spot of spots) {
