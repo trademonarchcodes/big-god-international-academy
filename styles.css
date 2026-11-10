@@ -278,3 +278,55 @@
     width:88px!important;height:120px!important;
   }
 }
+
+
+/* Ensure the DEVLYON credit is always readable and never squeezed out of the footer. */
+footer{position:relative;isolation:isolate;overflow:visible}
+footer .footer-bottom{
+  position:relative;
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap!important;
+  min-height:58px;
+  gap:12px 20px!important;
+  overflow:visible!important;
+  padding:18px 7%!important;
+}
+footer .footer-bottom>.footer-credit{
+  display:block!important;
+  flex:1 1 100%!important;
+  width:100%!important;
+  min-width:0!important;
+  position:relative!important;
+  z-index:2!important;
+  visibility:visible!important;
+  opacity:1!important;
+  text-align:center!important;
+  color:#e3eaf8!important;
+  font:800 12px/1.6 Nunito,Arial,sans-serif!important;
+  letter-spacing:.25px!important;
+  white-space:normal!important;
+  overflow:visible!important;
+}
+footer .footer-bottom>.footer-credit a{
+  display:inline-block!important;
+  color:#fff!important;
+  font-weight:1000!important;
+  text-decoration:underline!important;
+  text-decoration-color:#42a5ff!important;
+  text-underline-offset:3px!important;
+  letter-spacing:1px!important;
+  padding:2px 3px!important;
+}
+footer .footer-bottom>.footer-credit a:hover,
+footer .footer-bottom>.footer-credit a:focus-visible{
+  color:#65b8ff!important;
+  outline:2px solid #42a5ff!important;
+  outline-offset:3px!important;
+}
+@media(max-width:680px){
+  footer .footer-bottom{justify-content:center!important;text-align:center!important;padding:18px 5%!important}
+  footer .footer-bottom>span:first-child{flex:1 1 100%!important;text-align:center!important}
+  footer .footer-bottom>.footer-credit{font-size:12px!important;margin-top:3px!important}
+}
